@@ -1,0 +1,34 @@
+﻿@model Admin.Web.ViewModels.Users.EditViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>User: @Model.User.LastName, @Model.User.FirstName</h2>
+
+<form action="@Url.Action("Edit")" method="post">
+    <div class="form-group">
+        <label for="">First Name</label>
+        @Html.TextBoxFor(v => v.User.FirstName, new { @class = "form-control" } )
+    </div>
+    
+    <div class="form-group">
+        <label for="">Last Name</label>
+        @Html.TextBoxFor(v => v.User.LastName, new { @class = "form-control" } )
+    </div>
+    
+    <div class="form-group">
+        <label for="">Email</label>
+        @Html.TextBoxFor(v => v.User.Email, new { @class = "form-control", type="email" } )
+    </div>
+    
+    <div class="form-group">
+        <label for="">Password</label>
+        @Html.PasswordFor(v => v.User.Password, new { @class = "form-control" } )
+    </div>
+    
+    <div class="form-group">
+        <button type="submit">Save</button>
+    </div>
+</form>

@@ -19,6 +19,10 @@ namespace Admin.Web
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(c =>
+                {
+                    c.AddJsonFile("appsettings.json", true, true);
+                })
                 .UseStartup<Startup>()
                 .Build();
     }
