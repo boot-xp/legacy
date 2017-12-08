@@ -1,0 +1,23 @@
+{
+  "name": "admin.web",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boot-xp/legacy.git"
+  },
+  "author": "Bryce Klinker",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/boot-xp/legacy/issues"
+  },
+  "homepage": "https://github.com/boot-xp/legacy#readme",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1"
+  }
+}
