@@ -28,6 +28,12 @@
         @Html.PasswordFor(v => v.Password, new { @class = "form-control" } )
     </div>
     
+    <div class="checbox">
+        <label>
+            @Html.CheckBoxFor(v => v.IsAdmin)
+        </label>
+    </div>
+    
     <div class="form-group">
         <button type="submit">Save</button>
     </div>

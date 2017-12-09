@@ -11,8 +11,8 @@ using System;
 namespace Admin.Web.Migrations
 {
     [DbContext(typeof(AdminContext))]
-    [Migration("20171208045810_InitialUsersContext")]
-    partial class InitialUsersContext
+    [Migration("20171209203105_AddCustomerAndIsAdminFlagToUser")]
+    partial class AddCustomerAndIsAdminFlagToUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,20 @@ namespace Admin.Web.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Admin.Web.Models.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
+                });
 
             modelBuilder.Entity("Admin.Web.Models.User", b =>
                 {
@@ -33,6 +47,8 @@ namespace Admin.Web.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(255);
+
+                    b.Property<bool>("IsAdmin");
 
                     b.Property<string>("LastName")
                         .IsRequired()

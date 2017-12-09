@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Admin.Web.Models;
 using Admin.Web.ViewModels.Users;
 using Microsoft.AspNetCore.Mvc;
@@ -8,9 +9,9 @@ namespace Admin.Web.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly UsersContext _context;
+        private readonly AdminContext _context;
 
-        public UsersController(UsersContext context)
+        public UsersController(AdminContext context)
         {
             _context = context;
         }
@@ -28,21 +29,29 @@ namespace Admin.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == id);
-            return View(new EditViewModel
-            {
-                User = user
-            });
+            var user = await _context.Users
+                .Select(u => new EditViewModel
+                {
+                    Email = u.Email,
+                    FirstName = u.FirstName,
+                    Id = u.Id,
+                    LastName = u.LastName,
+                    Password = u.Password,
+                    IsAdmin = u.IsAdmin
+                })
+                .SingleOrDefaultAsync(u => u.Id == id);
+            return View(user);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditViewModel viewModel)
+        public async Task<IActionResult> Edit(int id, EditViewModel viewModel)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == viewModel.User.Id);
-            user.Email = viewModel.User.Email;
-            user.FirstName = viewModel.User.FirstName;
-            user.LastName = viewModel.User.LastName;
-            user.Password = viewModel.User.Password;
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == id);
+            user.Email = viewModel.Email;
+            user.FirstName = viewModel.FirstName;
+            user.LastName = viewModel.LastName;
+            user.Password = viewModel.Password;
+            user.IsAdmin = viewModel.IsAdmin;
             await _context.SaveChangesAsync();
             return View("Index");
         }
@@ -52,7 +61,7 @@ namespace Admin.Web.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateViewModel viewModel)
         {
@@ -61,7 +70,8 @@ namespace Admin.Web.Controllers
                 Email = viewModel.Email,
                 FirstName = viewModel.FirstName,
                 LastName = viewModel.LastName,
-                Password = viewModel.Password
+                Password = viewModel.Password,
+                IsAdmin = viewModel.IsAdmin
             });
             await _context.SaveChangesAsync();
             return View("Index");

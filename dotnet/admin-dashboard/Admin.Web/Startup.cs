@@ -19,7 +19,7 @@ namespace Admin.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddDbContext<UsersContext>(
+            services.AddDbContext<AdminContext>(
                 o => o.UseSqlServer(_configuration.GetConnectionString("UsersContext"), 
                     s => s.MigrationsAssembly(this.GetType().Assembly.GetName().Name))
             );
