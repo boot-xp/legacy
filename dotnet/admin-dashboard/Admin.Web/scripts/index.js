@@ -15,7 +15,11 @@ var ProductsService = (function ($) {
         return $.getJSON(apiUrl + '/products');
     }
     
+    function getProduct(id) {
+        return $.getJSON(apiUrl + '/products/' + id);
+    }
+    
     return function () {
-        return { getProducts: getProducts };
+        return { getProducts: getProducts, getProduct: getProduct };
     }
 })($);

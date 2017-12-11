@@ -73,5 +73,12 @@ namespace Admin.Web.Controllers
             var products = await _context.Products.ToArrayAsync();
             return Ok(products);
         }
+
+        [HttpGet("api/products/{id:int}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var product = await _context.Products.SingleOrDefaultAsync(p => p.Id == id);
+            return Ok(product);
+        } 
     }
 }
