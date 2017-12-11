@@ -25,14 +25,17 @@ namespace Admin.Web.Controllers
                 .ToArrayAsync();
             return View(new IndexViewModel
             {
-                Orders = orders
+                Orders = orders,
             });
         }
 
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            return View();
+            return View(new CreateViewModel
+            {
+                Customers = await _context.Customers.ToArrayAsync()
+            });
         }
 
         [HttpPost]
