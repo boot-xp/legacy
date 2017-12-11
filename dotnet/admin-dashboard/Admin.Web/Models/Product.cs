@@ -7,6 +7,7 @@ namespace Admin.Web.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal Cost { get; set; }
-        public ICollection<OrderLineItem> Orders { get; set; }
+        public decimal Price { get; set; }
+        public ICollection<OrderLineItem> OrderLineItems { get; set; }
     }
 }

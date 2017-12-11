@@ -27,6 +27,7 @@ namespace Admin.Web.Models
             modelBuilder.Entity<Customer>().Property(p => p.FirstName).IsRequired().HasMaxLength(255);
             modelBuilder.Entity<Customer>().Property(p => p.LastName).IsRequired().HasMaxLength(255);
             modelBuilder.Entity<Customer>().OwnsOne(p => p.Address).Property(a => a.AddressLine1).IsRequired().HasMaxLength(255);
+            modelBuilder.Entity<Customer>().OwnsOne(p => p.Address).Property(a => a.City).IsRequired().HasMaxLength(255);
             modelBuilder.Entity<Customer>().OwnsOne(p => p.Address).Property(a => a.Country).IsRequired().HasMaxLength(255);
             modelBuilder.Entity<Customer>().OwnsOne(p => p.Address).Property(a => a.State).IsRequired().HasMaxLength(255);
             modelBuilder.Entity<Customer>().OwnsOne(p => p.Address).Property(a => a.ZipCode).IsRequired();
@@ -39,8 +40,14 @@ namespace Admin.Web.Models
 
             modelBuilder.Entity<OrderLineItem>().HasKey(l => l.Id);
             modelBuilder.Entity<OrderLineItem>().HasOne(l => l.Order).WithMany(o => o.LineItems).IsRequired();
-            modelBuilder.Entity<OrderLineItem>().HasOne(l => l.Product).WithMany(p => p.Orders).IsRequired();
+            modelBuilder.Entity<OrderLineItem>().HasOne(l => l.Product).WithMany(p => p.OrderLineItems).IsRequired();
             modelBuilder.Entity<OrderLineItem>().Property(l => l.Quantity).IsRequired();
+
+            modelBuilder.Entity<Product>().HasKey(p => p.Id);
+            modelBuilder.Entity<Product>().HasMany(p => p.OrderLineItems).WithOne(o => o.Product).IsRequired();
+            modelBuilder.Entity<Product>().Property(p => p.Cost).IsRequired();
+            modelBuilder.Entity<Product>().Property(p => p.Price).IsRequired();
+            modelBuilder.Entity<Product>().Property(p => p.Name).IsRequired().HasMaxLength(255);
             
             base.OnModelCreating(modelBuilder);
         }

@@ -11,9 +11,10 @@ using System;
 namespace Admin.Web.Migrations
 {
     [DbContext(typeof(AdminContext))]
-    partial class UsersContextModelSnapshot : ModelSnapshot
+    [Migration("20171211212345_AddedPriceToProduct")]
+    partial class AddedPriceToProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,10 +131,6 @@ namespace Admin.Web.Migrations
                             b1.Property<int>("CustomerId");
 
                             b1.Property<string>("AddressLine1")
-                                .IsRequired()
-                                .HasMaxLength(255);
-
-                            b1.Property<string>("City")
                                 .IsRequired()
                                 .HasMaxLength(255);
 

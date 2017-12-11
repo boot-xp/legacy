@@ -17,9 +17,13 @@ namespace Admin.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var customers = await _context.Customers.ToArrayAsync();
+            return View(new IndexViewModel
+            {
+                Customers = customers
+            });
         }
 
         [HttpGet]
@@ -34,10 +38,18 @@ namespace Admin.Web.Controllers
             _context.Add(new Customer
             {
                 FirstName = viewModel.FirstName,
-                LastName = viewModel.LastName
+                LastName = viewModel.LastName,
+                Address = new Address
+                {
+                    AddressLine1 = viewModel.AddressLine1,
+                    City = viewModel.City,
+                    Country = viewModel.Country,
+                    State = viewModel.State,
+                    ZipCode = viewModel.ZipCode
+                }
             });
             await _context.SaveChangesAsync();
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -61,7 +73,23 @@ namespace Admin.Web.Controllers
             customer.FirstName = viewModel.FirstName;
             customer.LastName = viewModel.LastName;
             await _context.SaveChangesAsync();
-            return View("Index");
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet("api/customers/{id:int}/orders")]
+        public async Task<IActionResult> GetOrders(int id)
+        {
+            var customer = await _context.Customers.SingleOrDefaultAsync(c => c.Id == id);
+            if (customer == null)
+                return NotFound();
+
+            var orders = await _context.Orders.Select(o => new OrderViewModel
+            {
+                Date = o.OrderDate,
+                Id = o.Id,
+                Total = o.LineItems.Sum(l => l.Quantity * l.Product.Price)
+            }).ToArrayAsync();
+            return Ok(orders);
         }
     }
 }

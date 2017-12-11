@@ -53,7 +53,7 @@ namespace Admin.Web.Controllers
             user.Password = viewModel.Password;
             user.IsAdmin = viewModel.IsAdmin;
             await _context.SaveChangesAsync();
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -74,7 +74,7 @@ namespace Admin.Web.Controllers
                 IsAdmin = viewModel.IsAdmin
             });
             await _context.SaveChangesAsync();
-            return View("Index");
+            return RedirectToAction("Index");
         }
     }
 }

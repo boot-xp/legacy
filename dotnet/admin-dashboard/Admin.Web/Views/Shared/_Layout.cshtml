@@ -18,7 +18,9 @@
 @await Html.PartialAsync("_Footer")
 <script src="~/scripts/jquery.min.js" type="text/javascript"></script>
 <script src="~/scripts/bootstrap.min.js" type="text/javascript"></script>
-@RenderSection("scripts", false)
+<script src="~/scripts/mustache.min.js"></script>
+<script src="~/scripts/index.js" type="text/javascript"></script>
+@await RenderSectionAsync("scripts", false)
 
 </body>
 </html>

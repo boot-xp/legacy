@@ -9,13 +9,38 @@
 
 <form action="@Url.Action("Create")" method="post">
     <div class="form-group">
-        <label for="">First Name</label>
+        <label>First Name</label>
         @Html.TextBoxFor(v => v.FirstName, new { @class = "form-control" } )
     </div>
     
     <div class="form-group">
-        <label for="">Last Name</label>
+        <label>Last Name</label>
         @Html.TextBoxFor(v => v.LastName, new { @class = "form-control" } )
+    </div>
+    
+    <div class="form-group">
+        <label>Address Line 1</label>
+        @Html.TextBoxFor(v => v.AddressLine1, new { @class = "form-control" } )
+    </div>
+    
+    <div class="form-group">
+        <label>City</label>
+        @Html.TextBoxFor(v => v.City, new { @class = "form-control" } )
+    </div>
+    
+    <div class="form-group">
+        <label>State</label>
+        @Html.TextBoxFor(v => v.State, new { @class = "form-control" } )
+    </div>
+    
+    <div class="form-group">
+        <label>Country</label>
+        @Html.TextBoxFor(v => v.Country, new { @class = "form-control" } )
+    </div>
+    
+    <div class="form-group">
+        <label>ZipCode</label>
+        @Html.TextBoxFor(v => v.ZipCode, new { @class = "form-control" } )
     </div>
     
     <div class="form-group">

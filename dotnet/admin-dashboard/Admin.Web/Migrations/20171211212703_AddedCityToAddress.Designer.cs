@@ -11,9 +11,10 @@ using System;
 namespace Admin.Web.Migrations
 {
     [DbContext(typeof(AdminContext))]
-    partial class UsersContextModelSnapshot : ModelSnapshot
+    [Migration("20171211212703_AddedCityToAddress")]
+    partial class AddedCityToAddress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

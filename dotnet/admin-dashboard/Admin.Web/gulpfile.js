@@ -18,7 +18,8 @@ gulp.task('copy-scripts', function ()  {
     return gulp.src([
         './node_modules/jquery/dist/jquery.min.js',
         './node_modules/bootstrap/dist/js/bootstrap.min.js',
-        './node_modules/bootstrap/dist/js/bootstrap.min.js'
+        './node_modules/mustache/mustache.min.js',
+        './scripts/index.js'
     ]).pipe(gulp.dest('./wwwroot/scripts'));
 });
 
