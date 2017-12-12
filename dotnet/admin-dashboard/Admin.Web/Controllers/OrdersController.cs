@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Admin.Web.Models;
 using Admin.Web.ViewModels.Orders;
@@ -38,10 +39,26 @@ namespace Admin.Web.Controllers
             });
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(CreateViewModel viewModel)
+        [HttpPost("api/orders")]
+        public async Task<IActionResult> CreateOrder([FromBody] ApiCreateViewModel viewModel)
         {
-            return RedirectToAction("Index");
+            var customer = await _context.Customers.SingleOrDefaultAsync(c => c.Id == viewModel.CustomerId);
+            var products = await _context.Products
+                .Where(p => viewModel.Items.Any(i => i.ProductId == p.Id))
+                .ToArrayAsync();
+
+            _context.Add(new Order
+            {
+                OrderDate = DateTime.UtcNow,
+                Customer = customer,
+                LineItems = products.Select(p => new OrderLineItem
+                {
+                    Product = p,
+                    Quantity = viewModel.Items.First(i => i.ProductId == p.Id).Quantity
+                }).ToArray()
+            });
+            await _context.SaveChangesAsync();
+            return Ok();
         }
     }
 }

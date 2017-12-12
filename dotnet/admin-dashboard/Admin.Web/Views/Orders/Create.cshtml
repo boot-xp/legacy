@@ -7,7 +7,7 @@
 
 <h2>Create Order</h2>
 
-<form id="add-order-form" action="@Url.Action("Create")" method="post">
+<form id="add-order-form">
     <div class="form-group">
         <label>Customer</label>
         <select id="select-customer">
@@ -61,7 +61,7 @@
 </form>
 
 <div id="select-product-modal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="documnet">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -89,13 +89,14 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#select-customer').select2();
-            var service = new ProductsService();
+            var productsService = new ProductsService();
+            var ordersService = new OrdersService();
 
             $('#select-product-modal').on('shown.bs.modal',
                 function(e) {
                     $('#product-select').select2();
 
-                    service.getProducts()
+                    productsService.getProducts()
                         .then(function(products) {
                             var html = $('#product-item-template').html();
                             var rendered = Mustache.render(html, products);
@@ -107,7 +108,7 @@
                 function(e) {
                     var productId = $('#product-select').val();
 
-                    service.getProduct(productId)
+                    productsService.getProduct(productId)
                         .then(function(product) {
                             $('#productsPlaceholder').remove();
 
@@ -118,19 +119,29 @@
                         });
                 });
 
-            $('#add-order-form').on('submit',
-                function(e) {
-                    var productRows = $('#order-products tbody tr');
-                    var products = [];
-                    for (var i = 0; i < productRows.length; i++) {
-                        products.push({
-                            id: $(productRows[i]).find('td')[0].text(),
-                            quantity: $(productRows[i]).find('td')[4].find('input').val()
-                        });
-                    }
-                    
-                    
+            $('#add-order-form').submit(function(e) {
+                e.preventDefault();
+                $('#add-product-btn').disable();
+                var productRows = $('#order-products')
+                    .find('tr');
+                
+                var items = [];
+                for (var i = 0; i < productRows.length; i++) {
+                    items.push({
+                        productId: $(productRows[i]).find('td')[0].innerText,
+                        quantity: $($(productRows[i]).find('td')[4]).find('input').val()
+                    });
+                }
+
+                var order = {
+                    customerId: $('#select-customer').val(),
+                    items: items
+                };
+                ordersService.createOrder(order).done(function() {
+                    window.location.href = '@Url.Action("Index", "Orders")';
                 });
+                return false;
+            });
         });
     </script>
 

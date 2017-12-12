@@ -23,3 +23,18 @@ var ProductsService = (function ($) {
         return { getProducts: getProducts, getProduct: getProduct };
     }
 })($);
+
+var OrdersService = (function ($) {
+    function createOrder(order) {
+        return $.ajax({
+            type: 'POST',
+            url: apiUrl + '/orders', 
+            data: JSON.stringify(order),
+            contentType: 'application/json'
+        });
+    }
+    
+    return function () {
+        return { createOrder: createOrder };
+    }
+})($);
