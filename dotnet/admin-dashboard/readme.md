@@ -5,6 +5,7 @@ some bugs, but would like to extend the application to have the following featur
 
 ## Additional Features
 
+1. Get the product out there!
 1. Ability to see subtotal when creating orders
 1. Show current users name
 1. Allow user to logout
