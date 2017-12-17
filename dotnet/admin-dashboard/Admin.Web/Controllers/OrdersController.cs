@@ -3,11 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Admin.Web.Models;
 using Admin.Web.ViewModels.Orders;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Admin.Web.Controllers
 {
+    [Authorize]
     public class OrdersController : Controller
     {
         private readonly AdminContext _context;

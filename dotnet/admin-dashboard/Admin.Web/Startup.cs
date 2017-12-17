@@ -1,6 +1,7 @@
 ﻿using Admin.Web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,9 +21,13 @@ namespace Admin.Web
         {
             services.AddMvc();
             services.AddDbContext<AdminContext>(
-                o => o.UseSqlServer(_configuration.GetConnectionString("UsersContext"), 
-                    s => s.MigrationsAssembly(this.GetType().Assembly.GetName().Name))
+                o => o.UseSqlServer(_configuration.GetConnectionString("ApplicationContext"), 
+                    s => s.MigrationsAssembly(GetType().Assembly.GetName().Name))
             );
+
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<AdminContext>()
+                .AddDefaultTokenProviders();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -30,7 +35,8 @@ namespace Admin.Web
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
 
-            app.UseStaticFiles()
+            app.UseAuthentication()
+                .UseStaticFiles()
                 .UseMvc(o => o.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}")

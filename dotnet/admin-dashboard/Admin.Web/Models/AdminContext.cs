@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Admin.Web.Models
 {
-    public class AdminContext : DbContext
+    public class AdminContext : IdentityDbContext<User, Role, int>
     {
-        public DbSet<User> Users { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -17,11 +17,8 @@ namespace Admin.Web.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasKey(u => u.Id);
-            modelBuilder.Entity<User>().Property(p => p.Email).IsRequired().HasMaxLength(1024);
             modelBuilder.Entity<User>().Property(p => p.FirstName).IsRequired().HasMaxLength(255);
             modelBuilder.Entity<User>().Property(p => p.LastName).IsRequired().HasMaxLength(255);
-            modelBuilder.Entity<User>().Property(p => p.Password).IsRequired().HasMaxLength(255);
 
             modelBuilder.Entity<Customer>().HasKey(c => c.Id);
             modelBuilder.Entity<Customer>().Property(p => p.FirstName).IsRequired().HasMaxLength(255);

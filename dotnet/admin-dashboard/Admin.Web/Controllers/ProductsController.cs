@@ -1,11 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Admin.Web.Models;
 using Admin.Web.ViewModels.Products;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Admin.Web.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         private readonly AdminContext _context;
